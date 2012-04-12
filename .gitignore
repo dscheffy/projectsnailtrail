@@ -2,3 +2,5 @@
 .settings/
 .project
 project.properties
+bin/
+gen/
