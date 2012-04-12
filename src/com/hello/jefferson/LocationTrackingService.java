@@ -35,6 +35,7 @@ public class LocationTrackingService extends Service  implements LocationListene
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		// Register the listener with the Location Manager to receive location updates
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, this);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 0, this);
 
 		//stopSelf();
 	}
