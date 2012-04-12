@@ -17,8 +17,11 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
 
-public class LocationTrackingService extends Service  implements LocationListener {
+public class LocationTrackingService extends Service  {
 
+	LocationListener gpsListener = new MyLocationListener();
+	LocationListener networkListener = new MyLocationListener();
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
@@ -34,8 +37,8 @@ public class LocationTrackingService extends Service  implements LocationListene
 		// Acquire a reference to the system Location Manager
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		// Register the listener with the Location Manager to receive location updates
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, this);
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 0, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 600000, 1000, gpsListener);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 600000, 1000, networkListener);
 
 		//stopSelf();
 	}
@@ -51,33 +54,39 @@ public class LocationTrackingService extends Service  implements LocationListene
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.removeUpdates(this);
+		locationManager.removeUpdates(gpsListener);
+		locationManager.removeUpdates(networkListener);
 		super.onDestroy();
 	}
 	
-
-	public void onLocationChanged(Location arg0) {
-		Log.i("LocationTrackingService","onLocationChanged");
-		writeMessage(String.valueOf(arg0));
-		
-	}
-
-	public void onProviderDisabled(String provider) {
-		Log.i("LocationTrackingService","onProviderDisabled");
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onProviderEnabled(String provider) {
-		Log.i("LocationTrackingService","onProviderEnabled");
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Log.i("LocationTrackingService","onStatusChanged");
-		// TODO Auto-generated method stub
-		
+	class MyLocationListener implements LocationListener {
+		public void onLocationChanged(Location arg0) {
+			Log.i("LocationTrackingService","onLocationChanged");
+			writeMessage(String.valueOf(arg0));
+//			LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+			stopSelf();
+//			locationManager.removeUpdates(gpsListener);
+//			locationManager.removeUpdates(networkListener);
+			
+		}
+	
+		public void onProviderDisabled(String provider) {
+			Log.i("LocationTrackingService","onProviderDisabled");
+			// TODO Auto-generated method stub
+			
+		}
+	
+		public void onProviderEnabled(String provider) {
+			Log.i("LocationTrackingService","onProviderEnabled");
+			// TODO Auto-generated method stub
+			
+		}
+	
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			Log.i("LocationTrackingService","onStatusChanged");
+			// TODO Auto-generated method stub
+			
+		}
 	}
 	private void writeMessage(String message){
 		FileOutputStream out = null;

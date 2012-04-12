@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class WakeUpBroadcastReceiver extends BroadcastReceiver {
 
-	public final static int WAIT_PERIOD = 1000 * 60 * 10;
+	public final static int WAIT_PERIOD = 1000 * 60 * 2;
 	public final static String ALARM_ACTION = "com.hello.jefferson.ALARM_ACTION";
 	@Override
 	public void onReceive(Context context, Intent intent) {
