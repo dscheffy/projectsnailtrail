@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name=".HelloJeffersonActivity"
+            android:name=".MainTabViewActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HelloJeffersonActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".TrackPointViewerActivity"
+            android:label="@string/app_name" >
+        </activity>
+        
         <receiver android:name=".WakeUpBroadcastReceiver">
 			<intent-filter>
 				<action android:name="com.hello.jefferson.ALARM_ACTION" />

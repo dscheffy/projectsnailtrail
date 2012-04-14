@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.projectsnailtrail.writable.TrackPoint;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -67,7 +69,6 @@ public class LocationTrackingService extends Service  {
 	public void onStart(Intent intent, int startId) {
 		// TODO Auto-generated method stub
 		super.onStart(intent, startId);
-		writeMessage("Starting Service at "+SystemClock.elapsedRealtime());
 		Log.i("JeffersonService","onStart: "+intent.getAction() + SystemClock.elapsedRealtime());
 		// Register the listener with the Location Manager to receive location updates
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -98,9 +99,9 @@ public class LocationTrackingService extends Service  {
 	}
 	
 	class MyLocationListener implements LocationListener {
-		public void onLocationChanged(Location arg0) {
+		public void onLocationChanged(Location location) {
 			Log.i("LocationTrackingService","onLocationChanged");
-			writeMessage(String.valueOf(arg0));
+			writeMessage(location);
 //			LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 //			stopSelf();
 //			locationManager.removeUpdates(gpsListener);
@@ -136,7 +137,7 @@ public class LocationTrackingService extends Service  {
 		}
 	}
 	 
-	private void writeMessage(String message){
+	private void writeMessage(Location location){
 		FileOutputStream out = null;
 		try {
 			File sdRoot = Environment.getExternalStorageDirectory();
@@ -147,9 +148,13 @@ public class LocationTrackingService extends Service  {
 				if(subDir.exists() && subDir.canWrite()){
 					File logfile = new File(subDir,"locations");
 					logfile.createNewFile();
+					TrackPoint tp = new TrackPoint();
+					tp.setLatitude(location.getLatitude());
+					tp.setLongitude(location.getLongitude());
+					tp.setTimestamp(location.getTime());
+					tp.setAccuracy((int)location.getAccuracy());
 					out = new FileOutputStream(logfile, true);
-					out.write(message.getBytes("UTF-8"));
-					out.write("\n".getBytes("UTF-8"));
+					tp.write(out);
 				}
 			}
 		} catch (FileNotFoundException e) {

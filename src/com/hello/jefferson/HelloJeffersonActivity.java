@@ -12,7 +12,7 @@ public class HelloJeffersonActivity extends Activity implements OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.config_tab);
     	Button buttonOn = (Button)findViewById(R.id.buttonOn);
     	buttonOn.setOnClickListener(this);
     	Button buttonOff = (Button)findViewById(R.id.buttonOff);    
