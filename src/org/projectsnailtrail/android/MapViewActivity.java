@@ -1,4 +1,4 @@
-package com.hello.jefferson;
+package org.projectsnailtrail.android;
 
 import java.util.List;
 

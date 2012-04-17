@@ -1,4 +1,4 @@
-package com.hello.jefferson;
+package org.projectsnailtrail.android;
 
 import java.io.File;
 import java.io.FileInputStream;

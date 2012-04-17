@@ -1,4 +1,4 @@
-package com.hello.jefferson;
+package org.projectsnailtrail.android;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -19,7 +19,7 @@ public class MainTabViewActivity extends TabActivity {
 	    Intent intent;  // Reusable Intent for each tab
 
 	    // Create an Intent to launch an Activity for the tab (to be reused)
-	    intent = new Intent().setClass(this, HelloJeffersonActivity.class);
+	    intent = new Intent().setClass(this, ProjectSnailTrailActivity.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("main").setIndicator("Configure",

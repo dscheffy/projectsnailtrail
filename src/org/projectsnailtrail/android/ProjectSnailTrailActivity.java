@@ -1,4 +1,4 @@
-package com.hello.jefferson;
+package org.projectsnailtrail.android;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class HelloJeffersonActivity extends Activity implements OnClickListener {
+public class ProjectSnailTrailActivity extends Activity implements OnClickListener {
 
     /** Called when the activity is first created. */
     @Override

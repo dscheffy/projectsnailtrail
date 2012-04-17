@@ -1,4 +1,4 @@
-package com.hello.jefferson;
+package org.projectsnailtrail.android;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hello.jefferson"
+    package="org.projectsnailtrail.android"
     android:versionCode="1"
     android:versionName="1.0" >
 	
@@ -25,18 +25,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HelloJeffersonActivity"
+            android:name=".ProjectSnailTrailActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".TrackPointViewerActivity"
             android:label="@string/app_name" >
         </activity>
-		<activity android:name=".MapViewActivity" android:label="@string/app_name"
+		<activity android:name="org.projectsnailtrail.android.MapViewActivity" android:label="@string/app_name"
 			android:theme="@android:style/Theme.NoTitleBar">        
         </activity>
 		    
-		<receiver android:name=".WakeUpBroadcastReceiver">
+		<receiver android:name="org.projectsnailtrail.android.WakeUpBroadcastReceiver">
 			<intent-filter>
 				<action android:name="com.hello.jefferson.ALARM_ACTION" />
 			</intent-filter>
@@ -46,7 +46,7 @@
 			android:enabled="true">
 		</service>
 		<service
-		    android:name=".LocationTrackingService"
+		    android:name="org.projectsnailtrail.android.LocationTrackingService"
 			android:enabled="true">
 		</service>
 		
