@@ -22,14 +22,21 @@ public class MainTabViewActivity extends TabActivity {
 	    intent = new Intent().setClass(this, HelloJeffersonActivity.class);
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("artists").setIndicator("Configure",
+	    spec = tabHost.newTabSpec("main").setIndicator("Configure",
 	                      res.getDrawable(R.drawable.ic_tab_artists))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
 
 	    // Do the same for the other tabs
 	    intent = new Intent().setClass(this, TrackPointViewerActivity.class);
-	    spec = tabHost.newTabSpec("albums").setIndicator("View",
+	    spec = tabHost.newTabSpec("list").setIndicator("History",
+	                      res.getDrawable(R.drawable.ic_tab_artists))
+	                  .setContent(intent);
+	    tabHost.addTab(spec);
+
+	    // Do the same for the other tabs
+	    intent = new Intent().setClass(this, MapViewActivity.class);
+	    spec = tabHost.newTabSpec("map").setIndicator("Map",
 	                      res.getDrawable(R.drawable.ic_tab_artists))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
