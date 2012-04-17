@@ -1,7 +1,6 @@
 .classpath
 .settings/
 .project
-project.properties
 bin/
 gen/
 samples/
