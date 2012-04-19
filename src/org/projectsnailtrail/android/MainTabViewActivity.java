@@ -23,21 +23,21 @@ public class MainTabViewActivity extends TabActivity {
 
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    spec = tabHost.newTabSpec("main").setIndicator("Configure",
-	                      res.getDrawable(R.drawable.ic_tab_artists))
+	                      res.getDrawable(R.drawable.snail_tab))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
 
 	    // Do the same for the other tabs
 	    intent = new Intent().setClass(this, TrackPointViewerActivity.class);
 	    spec = tabHost.newTabSpec("list").setIndicator("History",
-	                      res.getDrawable(R.drawable.ic_tab_artists))
+                res.getDrawable(R.drawable.snail_tab))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
 
 	    // Do the same for the other tabs
 	    intent = new Intent().setClass(this, MapViewActivity.class);
 	    spec = tabHost.newTabSpec("map").setIndicator("Map",
-	                      res.getDrawable(R.drawable.ic_tab_artists))
+                res.getDrawable(R.drawable.snail_tab))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
 

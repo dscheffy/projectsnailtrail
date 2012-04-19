@@ -11,7 +11,7 @@ public class TrackPointOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private ArrayList<OverlayItem> overlays = new ArrayList<OverlayItem>();
 	public TrackPointOverlay(Drawable defaultMarker) {
-		super(boundCenter(defaultMarker));
+		super(boundCenterBottom(defaultMarker));
 		// TODO Auto-generated constructor stub
 	}
 	@Override
