@@ -6,9 +6,11 @@ import org.projectsnailtrail.writable.TrackPoint;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
@@ -28,13 +30,29 @@ public class MapViewActivity extends MapActivity {
         mapOverlays = mapView.getOverlays();
         drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
         trackPointOverlay = new TrackPointOverlay(drawable);
+        int minLat = Integer.MAX_VALUE;
+        int maxLat = Integer.MIN_VALUE;
+        int minLong = Integer.MAX_VALUE;
+        int maxLong = Integer.MIN_VALUE;
+        
         List<TrackPoint> points = TrackPointManager.getInstance().getAllPoints(getIntent().getData());
         for(TrackPoint tp : points){
-            GeoPoint point = new GeoPoint((int)(tp.getLatitude()*1000000),(int)(tp.getLongitude()*1000000));
+        	int latE6 = (int)(tp.getLatitude()*1000000);
+        	int longE6 = (int)(tp.getLongitude()*1000000);
+        	if(latE6>maxLat) maxLat=latE6;
+        	if(latE6<minLat) minLat=latE6;
+        	if(longE6>maxLong) maxLong=longE6;
+        	if(longE6<minLong) minLong=longE6;
+            GeoPoint point = new GeoPoint(latE6,longE6);
             OverlayItem overlayitem = new OverlayItem(point, "", "");
             trackPointOverlay.addOverlay(overlayitem);
         }
+        Log.i("TrackPointManager:lat long span","minLat:"+minLat+"maxLat:"+maxLat+"minLong"+minLong+"maxLong"+maxLong);
         mapOverlays.add(trackPointOverlay);
+        GeoPoint firstGeo = new GeoPoint((minLat+maxLat)/2,(minLong+maxLong)/2);
+        MapController controller = mapView.getController();
+        controller.setCenter(firstGeo);
+        controller.zoomToSpan(maxLat-minLat,maxLong-minLong);
     }
 
 	@Override
