@@ -91,12 +91,6 @@ public class LocationTrackingService extends Service  {
 		locationManager.removeUpdates(gpsListener);
 		locationManager.removeUpdates(networkListener);
 	//	locationManager.removeGpsStatusListener(gpsStatusListener);
-		try{
-			trackPointManager.persistToDisk();
-		}catch(IOException ioe){
-			//TODO: do something here
-			//oh well, we tried...
-		}
 		super.onDestroy();
 	}
 	
@@ -107,9 +101,9 @@ public class LocationTrackingService extends Service  {
 		}
 		public void onLocationChanged(Location location) {
 			Log.i("LocationTrackingService","adding a new location");
-			trackPointManager.addLocation(location, isGps);
+			
 			try{
-				trackPointManager.persistToDisk();
+				trackPointManager.addLocation(location, isGps);
 			} catch (IOException ioe){
 				//eh..
 				Log.e("LocationTrackingService:onLocationChanged",ioe.getMessage());

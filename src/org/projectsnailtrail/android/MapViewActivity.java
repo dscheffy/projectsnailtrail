@@ -14,6 +14,7 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 public class MapViewActivity extends MapActivity {
+	public static final String ACTION_MAIN = "org.projectsnailtrail.android.ACTION_MAIN";
 	List<Overlay> mapOverlays;
 	Drawable drawable;
 	TrackPointOverlay trackPointOverlay;
@@ -27,7 +28,7 @@ public class MapViewActivity extends MapActivity {
         mapOverlays = mapView.getOverlays();
         drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
         trackPointOverlay = new TrackPointOverlay(drawable);
-        List<TrackPoint> points = TrackPointManager.getInstance().getAllPoints();
+        List<TrackPoint> points = TrackPointManager.getInstance().getAllPoints(getIntent().getData());
         for(TrackPoint tp : points){
             GeoPoint point = new GeoPoint((int)(tp.getLatitude()*1000000),(int)(tp.getLongitude()*1000000));
             OverlayItem overlayitem = new OverlayItem(point, "", "");
