@@ -34,13 +34,6 @@ public class MainTabViewActivity extends TabActivity {
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
 
-	    // Do the same for the other tabs
-	    intent = new Intent().setClass(this, MapViewActivity.class);
-	    spec = tabHost.newTabSpec("map").setIndicator("Map",
-                res.getDrawable(R.drawable.snail_tab))
-	                  .setContent(intent);
-	    tabHost.addTab(spec);
-
 
 	    tabHost.setCurrentTab(0);
 	}	
