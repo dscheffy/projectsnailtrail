@@ -38,7 +38,7 @@ public class TrackPointOverlay extends Overlay {
 	        pathPaint.setStrokeJoin(Paint.Join.ROUND);
 	        pathPaint.setStrokeCap(Paint.Cap.ROUND);
 	        pathPaint.setAlpha(32);
-	        pathPaint.setStrokeWidth(2);
+	        pathPaint.setStrokeWidth(4);
 
 		// TODO Auto-generated constructor stub
 	}
@@ -48,14 +48,20 @@ public class TrackPointOverlay extends Overlay {
 		// TODO Auto-generated method stub
 		super.draw(canvas, mapView, shadow);
 		Projection proj = mapView.getProjection();
-		int metersPerPixel = mapView.getLatitudeSpan()/(4*mapView.getHeight());
+//		int metersPerPixel = mapView.getLatitudeSpan()/(4*mapView.getHeight());
 		Point prevPoint = null;
+		long prevTimeStamp = 0;
 		for(TrackPoint trackPoint : trackPoints){
+			if(trackPoint.getTimestamp()<prevTimeStamp) continue;
+			prevTimeStamp = trackPoint.getTimestamp();
 			Point point = new Point();
 			GeoPoint geoPoint = new GeoPoint((int)(trackPoint.getLatitude()*1000000),(int)(trackPoint.getLongitude()*1000000));
 			proj.toPixels(geoPoint,point);
-			paint.setStrokeWidth(trackPoint.getAccuracy()/metersPerPixel);
-			paint.setAlpha(2000/trackPoint.getAccuracy());//Totally klugie!!! need to fix this, but not really important for now.
+			if(trackPoint.isGps()) 
+			{paint.setColor(Color.BLUE);}else{paint.setColor(Color.GREEN);}
+//			paint.setStrokeWidth(trackPoint.getAccuracy()/(metersPerPixel+1));//just a kluge to avoid divide by zero issues
+			paint.setStrokeWidth(2*proj.metersToEquatorPixels(trackPoint.getAccuracy()));
+			paint.setAlpha((int)(256/(Math.sqrt(trackPoint.getAccuracy())+1)));//Totally klugie!!! need to fix this, but not really important for now.
 			canvas.drawPoint(point.x, point.y, paint);
 			if(prevPoint!=null){
 				canvas.drawLine(point.x,point.y,prevPoint.x,prevPoint.y,pathPaint);

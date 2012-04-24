@@ -54,7 +54,9 @@
 		    android:name="org.projectsnailtrail.android.LocationTrackingService"
 			android:enabled="true">
 		</service>
-		
+		<service android:name=".PassiveLocationUpdateService" android:enabled="true" >
+		    
+		</service>		
         
         
     </application>

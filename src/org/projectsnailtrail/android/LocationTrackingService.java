@@ -1,7 +1,9 @@
 package org.projectsnailtrail.android;
 
 import java.io.IOException;
+import java.util.Set;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +20,7 @@ import android.util.Log;
 public class LocationTrackingService extends Service  {
 	LocationListener gpsListener;
 	LocationListener networkListener;
+//	LocationListener passiveListener;
 //	GpsStatus.Listener gpsStatusListener;
 	TrackPointManager trackPointManager;
 
@@ -26,8 +29,10 @@ public class LocationTrackingService extends Service  {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		//locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		gpsListener = new MyLocationListener(true);
-		networkListener = new MyLocationListener(false);
+		gpsListener = new MyLocationListener("GPS");
+		networkListener = new MyLocationListener("NETWORK");
+//		passiveListener = new MyLocationListener("PASSIVE");
+
 //		gpsStatusListener = new MyGpsStatusListener();
 		trackPointManager = TrackPointManager.getInstance();
 	}
@@ -73,6 +78,8 @@ public class LocationTrackingService extends Service  {
 //		Log.i("LocationTrackingService.onStart",gpsToString(status, 0));
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 600000, 1000, gpsListener);
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 600000, 1000, networkListener);
+		PendingIntent passiveIntent = PendingIntent.getService(this,0,new Intent(this,PassiveLocationUpdateService.class),PendingIntent.FLAG_ONE_SHOT);
+		locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 600000, 1000, passiveIntent);
 
 		//stopSelf();
 	}
@@ -95,24 +102,12 @@ public class LocationTrackingService extends Service  {
 	}
 	
 	class MyLocationListener implements LocationListener {
-		boolean isGps=false;
-		public MyLocationListener(boolean gps){
-			isGps=gps;
+		String type;
+		public MyLocationListener(String type){
+			this.type=type;
 		}
 		public void onLocationChanged(Location location) {
-			Log.i("LocationTrackingService","adding a new location");
-			
-			try{
-				trackPointManager.addLocation(location, isGps);
-			} catch (IOException ioe){
-				//eh..
-				Log.e("LocationTrackingService:onLocationChanged",ioe.getMessage());
-			}
-			
-//			LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-//			stopSelf();
-//			locationManager.removeUpdates(gpsListener);
-//			locationManager.removeUpdates(networkListener);
+			Log.i("LocationTrackingService:onLocationChanged","just logging here, nothing else");
 			
 		}
 	
