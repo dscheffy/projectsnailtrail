@@ -47,15 +47,14 @@
 			</intent-filter>
 		</receiver>
 		<service
-		    android:name=".WakeUpBroadcastReceiver"
-			android:enabled="true">
-		</service>
-		<service
 		    android:name="org.projectsnailtrail.android.LocationTrackingService"
 			android:enabled="true">
 		</service>
-		<service android:name=".PassiveLocationUpdateService" android:enabled="true" >
-		    
+		<service android:name=".PassiveLocationUpdateService" android:exported="false" >
+		    <intent-filter>
+		        <action android:name="org.projectsnailtrail.action.PASSIVE_LOCATION_UPDATE" />
+                <category android:name="android.intent.category.DEFAULT" />
+		    </intent-filter>
 		</service>		
         
         
