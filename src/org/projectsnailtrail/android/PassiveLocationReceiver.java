@@ -3,7 +3,8 @@ package org.projectsnailtrail.android;
 import java.io.IOException;
 import java.util.Set;
 
-import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
@@ -11,25 +12,15 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-public class PassiveLocationUpdateService extends Service {
+public class PassiveLocationReceiver extends BroadcastReceiver {
 	public static String ACTION_PASSIVE_LOCATION_UPDATE = "org.projectsnailtrail.action.PASSIVE_LOCATION_UPDATE";
 
 	@Override
-	public void onCreate() {
-		// TODO Auto-generated method stub
-		super.onCreate();
-	}
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
+	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		Bundle extras = intent.getExtras();
 		if(extras.containsKey(LocationManager.KEY_LOCATION_CHANGED)){
-			Log.i("PassiveLocationUpdateReceiver", "New location received"+startId);
+			Log.i("PassiveLocationUpdateReceiver", "New location received");
 			Location location = (Location)extras.getParcelable(LocationManager.KEY_LOCATION_CHANGED);
 			Bundle moreExtras = location.getExtras();
 			Set<String> keys = moreExtras.keySet();
@@ -42,25 +33,20 @@ public class PassiveLocationUpdateService extends Service {
 			Log.i("PassiveLocationUpdateReceiver", "age of location:"+String.valueOf(location.getTime()-System.currentTimeMillis()));
 			if(moreExtras.containsKey("networkLocationSource") && "cached".equalsIgnoreCase(moreExtras.getString("networkLocationSource"))){
 				//ignore this location -- it's cached and likely old/wrong
-				stopSelfResult(startId);
-				return START_STICKY;
+				return;
 			}
 			
 			try{
 				TrackPointManager.getInstance().addLocation(location, "gps".equalsIgnoreCase(location.getProvider()));
+				if(!"gps".equalsIgnoreCase(location.getProvider())){
+					Debug.log(sb.toString());
+				}
 			} catch (IOException ioe){
 				//eh..
 				Log.e("PassiveLocationUpdateReceiver",ioe.getMessage());
 			}
 			
 		}
-		stopSelfResult(startId);
-		return START_STICKY;
-	}
-	@Override
-	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

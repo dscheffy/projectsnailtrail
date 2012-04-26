@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -22,6 +23,10 @@ public class WakeUpBroadcastReceiver extends BroadcastReceiver {
 	}
 	public static void enable(Context context){
 		Log.i("JeffersonsReceiver","ARMING!");
+		//register a passive listener, this should really take place somewhere else and only needs to happen once
+		PendingIntent passiveIntent = PendingIntent.getBroadcast(context,0,new Intent(PassiveLocationReceiver.ACTION_PASSIVE_LOCATION_UPDATE),PendingIntent.FLAG_UPDATE_CURRENT);
+		((LocationManager)context.getSystemService(Context.LOCATION_SERVICE)).requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 600000, 1000, passiveIntent);
+
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		// setup pending intent
 		Intent alarmIntent = new Intent(WakeUpBroadcastReceiver.ALARM_ACTION);

@@ -48,9 +48,6 @@ public class LocationTrackingService extends Service  {
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 600000, 1000, gpsListener);
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 600000, 1000, networkListener);
 		
-		//register a passive listener, this should really take place somewhere else and only needs to happen once
-		PendingIntent passiveIntent = PendingIntent.getService(this,0,new Intent(PassiveLocationUpdateService.ACTION_PASSIVE_LOCATION_UPDATE),PendingIntent.FLAG_ONE_SHOT);
-		locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 600000, 1000, passiveIntent);
 
 		//stopSelf();
 	}
